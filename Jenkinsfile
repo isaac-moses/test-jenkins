@@ -1,21 +1,33 @@
-node ('docker-slave-attached') {
-    def action = 'create' // Set the desired action: create, update, or delete
-    def channel = 'my-channel' // Set the channel name
-    def webhook = 'my-webhook' // Set the webhook value
+pipeline {
+    agent any
 
-    def secretCommand
-
-    if (action == 'create') {
-        secretCommand = 'add'
-    } else if (action == 'update') {
-        secretCommand = 'update'
-    } else if (action == 'delete') {
-        secretCommand = 'delete'
-    } else {
-        error("Invalid action: ${action}")
+    parameters {
+        choice(name: 'action', choices: ['create', 'update', 'delete'], description: 'Select an action')
+        string(name: 'channel', defaultValue: '', description: 'Enter the channel')
+        password(name: 'webhook', defaultValue: '', description: 'Enter the webhook')
     }
 
-    println("Action: ${action}")
-    println("Channel: ${channel}")
-    println("Webhook: ${webhook}")
+    stages {
+        stage('Create AWS Secret') {
+            steps {
+                script {
+                    def secretCommand
+
+                    if (params.action == 'create') {
+                        secretCommand = 'add'
+                    } else if (params.action == 'update') {
+                        secretCommand = 'update'
+                    } else if (params.action == 'delete') {
+                        secretCommand = 'delete'
+                    } else {
+                        error("Invalid action: ${params.action}")
+                    }
+
+                    echo "Action: ${params.action}"
+                    echo "Channel: ${params.channel}"
+                    echo "Webhook: ${params.webhook}"
+                }
+            }
+        }
+    }
 }
