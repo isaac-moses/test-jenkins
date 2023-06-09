@@ -1,6 +1,6 @@
 pipeline {
     agent {
-        label 'base-image'
+        label 'baseimage'
     }
     parameters {
         choice(name: 'action', choices: ['create', 'update', 'delete'], description: 'Select an action')
