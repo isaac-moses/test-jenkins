@@ -22,12 +22,16 @@ pipeline {
                     } else {
                         error("Invalid action: ${params.action}")
                     }
+                    
+                    echo "Action: ${params.action}"
+                    echo "Channel: ${params.channel}"
+                    echo "Webhook: ${params.webhook}"
 
-                    withCredentials([string(credentialsId: 'aws-credentials', variable: 'awsCredentials')]) {
-                        sh """
-                            aws secretsmanager ${secretCommand}-secret --secret-id ${params.channel} --secret-string '${params.webhook}' --region us-east-1
-                        """
-                    }
+//                     withCredentials([string(credentialsId: 'aws-credentials', variable: 'awsCredentials')]) {
+//                         sh """
+//                             aws secretsmanager ${secretCommand}-secret --secret-id ${params.channel} --secret-string '${params.webhook}' --region us-east-1
+//                         """
+//                     }
                 }
             }
         }
