@@ -26,7 +26,7 @@ pipeline {
 
                     echo "Action: ${params.action}"
                     echo "Channel: ${params.channel}"
-                    echo "Webhook: ${params.webhook}"
+                    echo "Webhook: ${params.webhook}" // Ideally I will not echo
                 }
             }
         }
