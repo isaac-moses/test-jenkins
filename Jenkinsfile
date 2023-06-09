@@ -1,6 +1,7 @@
 pipeline {
-    agent any
-
+    agent {
+        label 'base-image'
+    }
     parameters {
         choice(name: 'action', choices: ['create', 'update', 'delete'], description: 'Select an action')
         string(name: 'channel', defaultValue: '', description: 'Enter the channel')
